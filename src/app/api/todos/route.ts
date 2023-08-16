@@ -11,9 +11,9 @@ export async function GET() {
 }
 
 export  async function POST(request: Request) {
-
+    
     const {userId, title}: Partial<Todo> = await request.json()
-
+   
     if (!userId || !title) return NextResponse.json({"message" : "Missing required data"})
 
     const res = await fetch(`${DATA_SOURCE_URL}`, {
@@ -21,13 +21,15 @@ export  async function POST(request: Request) {
         headers: {
             "Content-Type" : "application/json",
             'API-Key' : API_KEY,
-            'body': JSON.stringify({
-                userId, title, completed: false 
-            }) 
-        }
+            
+        },
+        body: JSON.stringify({
+            userId, title, completed: false 
+        }) 
     })
+  
     const newTodo: Todo = await res.json()
-
+    
     return NextResponse.json(newTodo)
 }
 
